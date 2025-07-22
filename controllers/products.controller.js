@@ -3,7 +3,7 @@ import * as productService from '../services/products.service.js';
 export const getAllProducts = async (req, res) => {
   try {
     const products = await productService.getAllProducts();
-    res.json(products);
+    res.status(200).json({message: "Lista de Productos", payload: products, status_code: 200});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -11,11 +11,13 @@ export const getAllProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
   try {
-    const product = await productService.getById(req.params.id);
-    if (!product) return res.status(404).json({ error: 'Producto no encontrado' });
-    res.json(product);
+    console.log(req.params.id)
+    const product = await productService.getProductById(req.params.id);
+    console.log("product",product)
+    if (!product) return res.status(404).json({ error: 'Producto no encontrado', status_code: 404});
+    res.status(200).json({message: "Producto encontrado", product, status_code: 200});
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message, status_code: 500 });
   }
 };
 

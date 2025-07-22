@@ -1,20 +1,25 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
+import {config} from 'dotenv';
 import {db} from './config/db.js'
-// import productRoutes from './routes/products.routes.js';
+import productRoutes from './routes/products.routes.js';
 // import authRoutes from './routes/auth.routes.js';
 
-dotenv.config();
+config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const URL_FRONT = process.env.URL_FRONT || "*" 
 
-app.use(cors());
+const CORS = cors({
+    origin: URL_FRONT
+})
+
+app.use(CORS);
 app.use(bodyParser.json());
 
-// app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes);
 // app.use('/auth', authRoutes);
 
 // Middleware de ruta no encontrada

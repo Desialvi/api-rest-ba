@@ -14,14 +14,15 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getById = async (id) => {
-  const ref = doc(db, productCollection, id);
-  const snap = await getDoc(ref);
-  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+export const getProductById = async (id) => {
+  const ref = doc(productCollection, id);
+  const product = await getDoc(ref);
+  console.log(product)
+  return product.exists() ? { id: product.id, ...product.data() } : null;
 };
 
 export const create = async (data) => {
-  const docRef = await addDoc(collection(db, productCollection), data);
+  const docRef = await addDoc(productCollection, data);
   return { id: docRef.id, ...data };
 };
 
